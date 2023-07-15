@@ -1,0 +1,207 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fnil\fcharset2 Symbol;}}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\qc\b\i\f0\fs32\lang9 MONGO DB\par
+question 1:\b0\i0\fs22\par
+
+\pard\sa200\sl276\slmult1 use test1\par
+switched to db test1\par
+db.store.insert(\{\par
+  name: 'fan',\par
+  description: '20v fan',\par
+  price: '100',\par
+  category: 'electronic',\par
+  stock: 100\par
+\})\par
+\par
+db.store.insertMany([\par
+  \{\par
+    name: 'fan',\par
+    description: '20v fan',\par
+    price: 100,\par
+    category: 'electronic',\par
+    stockQuantity: 100\par
+  \},\par
+  \{\par
+    name: 'shirt',\par
+    description: 'Cotton shirt',\par
+    price: 25.99,\par
+    category: 'clothing',\par
+    stockQuantity: 50\par
+  \},\par
+  \{\par
+    name: 'phone',\par
+    description: 'Smartphone',\par
+    price: 599.99,\par
+    category: 'electronic',\par
+    stockQuantity: 20\par
+  \},\par
+  \{\par
+    name: 'watch',\par
+    description: 'Water-resistant watch',\par
+    price: 199.99,\par
+    category: 'accessories',\par
+    stockQuantity: 80\par
+  \},\par
+]);\par
+\par
+db.store.insertMany([\par
+  \{\par
+    name: 'headphones',\par
+    description: 'Wireless headphones',\par
+    price: 89.99,\par
+    category: 'electronic',\par
+    stockQuantity: 30\par
+  \},\par
+  \{\par
+    name: 'backpack',\par
+    description: 'Waterproof backpack',\par
+    price: 49.99,\par
+    category: 'accessories',\par
+    stockQuantity: 60\par
+  \},\par
+  \{\par
+    name: 'television',\par
+    description: 'Smart TV',\par
+    price: 899.99,\par
+    category: 'electronic',\par
+    stockQuantity: 10\par
+  \},\par
+  \{\par
+    name: 'jeans',\par
+    description: 'Slim-fit jeans',\par
+    price: 59.99,\par
+    category: 'clothing',\par
+    stockQuantity: 70\par
+  \},\par
+  \{\par
+    name: 'earrings',\par
+    description: 'Silver earrings',\par
+    price: 29.99,\par
+    category: 'accessories',\par
+    stockQuantity: 90\par
+  \}\par
+]);\par
+\par
+
+\pard\sa200\sl276\slmult1\qc\b\i\fs32 question 2:\b0\i0\fs22\par
+
+\pard\sa200\sl276\slmult1 db.store.aggregate([\par
+  \{\par
+    $match: \{\par
+      name: 'fan' // Filter for the specific product 'fan'\par
+    \}\par
+  \},\par
+  \{\par
+    $addFields: \{\par
+      stockQuantity: \{ $subtract: ['$stockQuantity', 1] \} // Decrement the stock quantity by 1\par
+    \}\par
+  \}\par
+])\par
+\par
+
+\pard\sa200\sl276\slmult1\qc\b\i\fs32 question 3:\par
+
+\pard\sa200\sl276\slmult1\b0\i0\fs24 db.store.aggregate([\{$group:\{_id:"$category"\}\},\{$sort: \{ "price": 1 \} \}])\par
+\b\fs28 o/p->\par
+\b0\fs24\{\par
+  _id: 'electronic'\par
+\}\par
+\{\par
+  _id: 'clothing'\par
+\}\par
+\{\par
+  _id: 'accessories'\par
+\}\par
+
+\pard\sa200\sl276\slmult1\qc\b\i\fs36 question 3:\par
+
+\pard\sa200\sl276\slmult1\b0\i0\fs24 db.store.aggregate([\par
+  \{\par
+    $match: \{\par
+      price: \{ $gte: 50, $lte: 200 \}, // Specify the price range (from $50 to $200)\par
+      stockQuantity: \{ $gt: 0 \} // Filter for products with stock quantity greater than 0\par
+    \}\par
+  \}\par
+])\par
+\par
+\par
+
+\pard\sa200\sl276\slmult1\qc\b\i\fs36 question 4:\par
+
+\pard\sa200\sl276\slmult1\b0\i0\fs24\par
+udb.store.aggregate([\par
+  \{\par
+    $match: \{\par
+      _id: ObjectId('64b22054966b639e4c1429b8') ObjectId value\par
+    \}\par
+  \},\par
+  \{\par
+    $project: \{\par
+      "name": 1,\par
+      "description": 1,\par
+      "price": 1,\par
+      "category": 1,\par
+      "stockQuantity": 1\par
+    \}\par
+  \}\par
+])\par
+\b\fs28 o/p->\b0\fs24\par
+\{\par
+  _id: ObjectId("64b22054966b639e4c1429b8"),\par
+  name: 'headphones',\par
+  description: 'Wireless headphones',\par
+  price: 89.99,\par
+  category: 'electronic',\par
+  stockQuantity: 30\fs22\par
+\}\par
+\par
+\par
+\par
+
+\pard\sa200\sl276\slmult1\qc\b\i\fs36 question 3:3. Explain how MongoDB's indexing features can improve the performance of the inventory system.\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1  \b0\i0\fs24 well-designed indexes, the system can efficiently retrieve and display relevant product information, search results, and inventory status in real-time.\par
+{\pntext\f1\'B7\tab}adding updating data becomes easy.\par
+{\pntext\f1\'B7\tab}user can filter by specific category fast.\par
+{\pntext\f1\'B7\tab}when order is placed , updates are done quickly in to the data base.\par
+{\pntext\f1\'B7\tab}By indexing fields used for reporting purposes, such as sales data or inventory levels, the system can generate up-to-date reports and analytics insights promptly.\par
+{\pntext\f1\'B7\tab}Responsiveness is increased \par
+
+\pard\sa200\sl276\slmult1\par
+\b\i\fs32\par
+4. Discuss the scalability options available in MongoDB to handle increasing data and traffic.\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\b0\i0\fs22 Sharding: Sharding is MongoDB's built-in horizontal scaling mechanism. It distributes data across multiple machines or shards based on a shard key. Each shard is an independent replica set, allowing for parallel read and write operations. Sharding enables the database to handle large datasets and high traffic loads by distributing the data and workload across multiple servers.\par
+
+\pard\sa200\sl276\slmult1\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Replication: MongoDB's replication feature ensures high availability and provides fault tolerance. By replicating data across multiple nodes or servers, MongoDB creates a replica set where one node serves as the primary and others act as secondary nodes. Replication allows for automatic failover and provides redundancy, ensuring data availability even if a server or node goes down.\par
+
+\pard\sa200\sl276\slmult1\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Read Preference and Tagging: MongoDB allows configuring read preferences at the client level to control how reads are distributed across replica set members. By specifying read preferences, such as reading from the nearest replica or reading from specific tags, you can optimize read operations and distribute the load accordingly.\par
+
+\pard\sa200\sl276\slmult1\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Indexes and Indexing Strategies: Proper indexing helps optimize query performance, enabling MongoDB to handle increasing data and traffic more efficiently. Choosing the right indexes, including compound indexes or multi-key indexes, based on the query patterns and workload characteristics can significantly improve performance and scalability.\par
+
+\pard\sa200\sl276\slmult1\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Aggregation Pipeline and Map-Reduce: MongoDB's aggregation pipeline and Map-Reduce provide powerful capabilities for complex data transformations and calculations. Leveraging these features can help offload data processing tasks from the application layer to the database, improving scalability by distributing the workload across multiple stages or nodes.\par
+
+\pard\sa200\sl276\slmult1\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Caching: MongoDB can be integrated with caching solutions like Redis or Memcached to enhance read performance and reduce the load on the database. By caching frequently accessed data in memory, the system can respond faster to read requests, thereby improving scalability by reducing the database load.\par
+
+\pard\sa200\sl276\slmult1\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Infrastructure Scaling: MongoDB can be deployed on cloud platforms like AWS, Azure, or GCP, allowing easy scalability by leveraging the cloud provider's infrastructure scaling features. You can scale resources up or down based on demand, provision additional replica set members or shards, and utilize auto-scaling capabilities provided by the cloud platform.\par
+
+\pard\sa200\sl276\slmult1\b\i\fs36\par
+\par
+\b0\fs22\par
+\i0\par
+\par
+\par
+}
+ 
